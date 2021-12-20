@@ -28,25 +28,24 @@ let generateTasks = (options) => {
 hooks.registerHook('generateTasks', generateTasks)
 
 const defaults = (options) => ({
-  id: 'arpege-loader',
   model: 'arpege',
   request: {
     url: 'http://dcpc-nwp.meteo.fr/services/PS_GetCache_DCPCPreviNum',
     format: 'grib2',
     referencetime: `<%= runTime.format() %>`,
     package: `<%= package %>`,
-    time: `<%= forecastTime %>`
+    time: `<%= forecastTime %>`,
+    timeout: 180000 // Response can hang for a long time
   },
   // By naming files locally without refering to run time we reuse the same names and avoid having to purge
-  filepath: `<%= package %>/<%= forecastTime %>`,
-  archiveId: `<%= model %>/<%= runTime.format('YYYY/MM/DD/HH') %>/<%= package %>/<%= forecastTime %>`
+  filepath: `<%= package %>/<%= forecastTime %>.grb`,
+  archivePath: `<%= runTime.format('YYYY/MM/DD/HH') %>/<%= package %>/<%= forecastTime %>.grb`
 })
 
 module.exports = (options) => {
   options = Object.assign({}, defaults(options), options)
-  const filepath = options.filepath
-  const id = `${options.model}/${filepath}.grb`
-  const archiveId = options.archiveId
+  const taskId = `${options.model}/${options.filepath}`
+  const archiveId = `${options.id}/${options.archivePath}`
 
   return {
     id: options.id,
@@ -56,7 +55,7 @@ module.exports = (options) => {
       faultTolerant: true
     },
     taskTemplate: {
-      id,
+      id: taskId,
       type: 'http',
       // Common options for models, some will be setup on a per-model basis
       options: Object.assign({
@@ -69,25 +68,23 @@ module.exports = (options) => {
       tasks: {
         before: {
           // Do not download data if already here
-          /*
-          discardIf: {
-            predicate: (item) => item.previousData.runTime && (item.runTime.valueOf() === item.previousData.runTime.getTime())
-          }*/
+          discardIfExistsInStore: {
+            match: { predicate: () => process.env.S3_BUCKET },
+            output: { key: archiveId, store: 's3' }
+          }
         },
         after: {
           // Upload raw archive data to S3
           copyToStore: {
             match: { predicate: () => process.env.S3_BUCKET },
             input: { key: '<%= id %>', store: 'fs' },
-            output: { key: `${archiveId}.grb`,
-              store: 's3'
-            }
+            output: { key: archiveId, store: 's3' }
           }
         }
       },
       jobs: {
         before: {
-          createFStore: {
+          createFSStore: {
             hook: 'createStore',
             id: 'fs',
             options: {
