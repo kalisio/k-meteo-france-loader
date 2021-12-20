@@ -3,7 +3,7 @@
 [![Latest Release](https://img.shields.io/github/v/tag/kalisio/k-meteo-france-loader?sort=semver&label=latest)](https://github.com/kalisio/k-meteo-france-loader/releases)
 [![Build Status](https://travis-ci.com/kalisio/k-meteo-france-loader.png?branch=master)](https://travis-ci.com/kalisio/k-meteo-france-loader)
 
-A [Krawler](https://kalisio.github.io/krawler/) based service to download data from the Météo-France [AROME](https://donneespubliques.meteofrance.fr/?fond=produit&id_produit=131&id_rubrique=51) and [ARPEGE](https://donneespubliques.meteofrance.fr/?fond=produit&id_produit=130&id_rubrique=51) weather forecast models.
+A [Krawler](https://kalisio.github.io/krawler/) based service to download raw data from the Météo-France [AROME](https://donneespubliques.meteofrance.fr/?fond=produit&id_produit=131&id_rubrique=51) and [ARPEGE](https://donneespubliques.meteofrance.fr/?fond=produit&id_produit=130&id_rubrique=51) weather forecast models.
 
 ## Description
 
@@ -15,8 +15,7 @@ The job is executed according a specific cron expression. By default, every hour
 
 | Variable | Description |
 |--- | --- |
-| `TOKEN` | The token to use the API. | - |
-| `DB_URL` | The mongoDB database URL. The default value is `mongodb://127.0.0.1:27017/openradiation` |
+| `TOKEN` | The token to use on the Météo France website. | - |
 | `DEBUG` | Enables debug output. Set it to `krawler*` to enable full output. By default it is undefined. |
 
 ## Deployment
