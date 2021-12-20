@@ -42,6 +42,6 @@ jobs:
     - npm install -g codeclimate-test-reporter
     - git clone https://github.com/kalisio/krawler.git && cd krawler && yarn install && yarn link && cd ..
     - yarn link '@kalisio/krawler'
-    - NODE_PATH=/krawler/node_modules
+    - NODE_PATH=./krawler/node_modules
     after_script:
     - codeclimate-test-reporter < coverage/lcov.info
