@@ -1,5 +1,4 @@
 const path = require('path')
-const util = require('util')
 const moment = require('moment')
 const krawler = require('@kalisio/krawler')
 const hooks = krawler.hooks
@@ -13,10 +12,10 @@ let generateTasks = (options) => {
     options.runTimes.forEach(runTime => {
       // Convet run time from time in current day to date/time
       runTime = moment().utc().startOf('day').add(moment.duration(runTime))
-      options.packages.forEach(package => {
+      options.packages.forEach(pkg => {
         options.forecastTimes.forEach(forecastTime => {
           tasks.push({
-            runTime, package, forecastTime,
+            runTime, package: pkg, forecastTime
           })
         })
       })
@@ -44,7 +43,7 @@ const defaults = (options) => ({
 
 module.exports = (options) => {
   options = Object.assign({}, defaults(options), options)
-  const taskId = `${options.model}/${options.filepath}`
+  const taskId = `${options.id}/${options.filepath}`
   const archiveId = `${options.id}/${options.archivePath}`
 
   return {

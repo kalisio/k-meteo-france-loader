@@ -10,6 +10,37 @@ notifications:
       secure: yDQrmDTSMIEFzTFrO4sB0qOLDHRwydQPwrhDvPROhjVKL1uTa96g+RI8SWXMnE5JKVw+6YIJKrSi2FzTZDodlj0ULSeWE+3jvGfaBcUH4wtNG0UJ0tPVczoUOhPSY7nzvC+aSIFzYhVrWPonXSrLCGy5aH6pV1nOaSe1apeRwnjLiQy507HqC6+OXPNxlsHOrsLuC5EUFicuGNQfuGdSRxjrQ2FczaeT/woiHf7UHl7A9GsqO8pQ6M0oM7t8/8iR6x1/v5KlCBz/rCqHdf9+TKSvvxPOeBktiQe9fn4TFvexG7/VHX59cHnR9eqcQYg9tEM6CVblqWmDkewHOhwC/A2RWCB/iVL+5BogaM3gB9DZHcS4Cp7Y5lzycnnVfjmd9KLOmSL2/q62+5pl9+OSfUBf4asmg7ZfW1trQKMSBdkosedjeXCHUZNsOrBaxdMUn63QzlkFcJoWtrZ0SB7Bu78x9Oc/z+SJcXa8ElrxVsIXmysH8R1VtWpwv0g8K7ZKmHgZefLQDGIBKb9bwwqrgsdLaR/ghJMB0R80EAk8yj+obxcWgw8OsKjnq2p7LfIKt6kRaYZIdkk+XGb2HcZZvclu0bgE6XvPXkpEW2ySCrBAcJaup0VOEYsChCKvj7KCOloe1gF1L9W7Pk9oVo/E9zu9x4qkcdTXxZkrCP1Odvs=
     on_success: always
     on_failure: always
-script:
-- bash .travis.build.sh
 
+stages:
+- name: BUILD
+  if: commit_message !~ /\[skip build\]/
+- name: TEST
+  if: commit_message !~ /\[skip test\]/
+
+jobs:
+  include:
+
+  - stage: BUILD
+    language: node_js
+    node_js:
+    - '12'
+    services:
+    - docker
+    script:
+    - bash .travis.build.sh
+
+  - stage: TEST
+    language: node_js
+    node_js:
+    - '12'
+    services:
+    - docker
+    addons:
+      code_climate:
+        repo_token: 0b6b19c50fdfaa0419d23d60fe8fd3d363b328dc4b10e363d213eb9fa8a82086
+    before_script:
+    - npm install -g codeclimate-test-reporter
+    - git clone https://github.com/kalisio/krawler.git && cd krawler && yarn install && yarn link && cd ..
+    - yarn link '@kalisio/krawler'
+    after_script:
+    - codeclimate-test-reporter < coverage/lcov.info

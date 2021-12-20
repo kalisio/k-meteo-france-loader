@@ -23,16 +23,32 @@
     "url": "https://github.com/kalisio/k-meteo-france-loader/issues"
   },
   "scripts": {
-    "test": "echo \"Warning: no test specified\"",
     "changelog": "changelog -x build,ci,chore,docs,other,perf,refactor,revert,style,test",
     "release:major": "npm run changelog -- -M && git add CHANGELOG.md && git commit -m \"chore: updated CHANGELOG.md [skip ci]\" && git push && npm version --force major",
     "release:minor": "npm run changelog -- -m && git add CHANGELOG.md && git commit -m \"chore: Updated CHANGELOG.md [skip ci]\" && git push && npm version --force minor",
     "release:patch": "npm run changelog -- -p && git add CHANGELOG.md && git commit -m \"chore: Updated CHANGELOG.md [skip ci]\" && git push && npm version --force patch",
-    "postversion": "git push origin --tags"
+    "postversion": "git push origin --tags",
+    "lint": "standard *.js test/**/*.js --fix",
+    "mocha": "cross-env NODE_CONFIG_DIR=./test/config/ mocha --exit",
+    "coverage": "nyc npm run mocha",
+    "test": "npm run lint && npm run coverage"
+  },
+  "standard": {
+    "sourceType": "module",
+    "env": [
+      "mocha"
+    ]
   },
   "dependencies": {},
   "devDependencies": {
-    "generate-changelog": "^1.8.0"
+    "chai": "^4.2.0",
+    "chai-lint": "^0.1.1",
+    "cross-env": "^4.0.0",
+    "generate-changelog": "^1.8.0",
+    "nyc": "^15.0.1",
+    "mocha": "^6.2.0",
+    "standard": "^10.0.2",
+    "fs-extra": "^4.0.2"
   },
   "peerDependencies": {
     "@kalisio/krawler": "1.2.0"
