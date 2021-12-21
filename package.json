@@ -39,16 +39,18 @@
       "mocha"
     ]
   },
-  "dependencies": {},
+  "dependencies": {
+    "moment": "^2.29.1"
+  },
   "devDependencies": {
     "chai": "^4.2.0",
     "chai-lint": "^0.1.1",
     "cross-env": "^4.0.0",
+    "fs-extra": "^4.0.2",
     "generate-changelog": "^1.8.0",
-    "nyc": "^15.0.1",
     "mocha": "^6.2.0",
-    "standard": "^10.0.2",
-    "fs-extra": "^4.0.2"
+    "nyc": "^15.0.1",
+    "standard": "^10.0.2"
   },
   "peerDependencies": {
     "@kalisio/krawler": "1.2.0"

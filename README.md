@@ -16,6 +16,10 @@ The job is executed according a specific cron expression. By default, every hour
 | Variable | Description |
 |--- | --- |
 | `TOKEN` | The token to use on the Météo France website. | - |
+| `S3_ENDPOINT` | The S3 endpoint where to store the data. | - |
+| `S3_ACCESS_KEY` | The S3 access key where to store the data. | - |
+| `S3_SECRET_ACCESS_KEY` | The S3 secret access key where to store the data. | - |
+| `S3_BUCKET` | The S3 bucket where to store the data. | - |
 | `DEBUG` | Enables debug output. Set it to `krawler*` to enable full output. By default it is undefined. |
 
 ## Deployment
