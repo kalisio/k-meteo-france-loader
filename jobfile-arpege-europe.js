@@ -1,4 +1,4 @@
-const createJob = require('./job-arome')
+const createJob = require('./job-arpege')
 
 // Setup job name, model name, bounds and generation parameters
 module.exports = createJob({
