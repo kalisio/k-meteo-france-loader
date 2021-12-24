@@ -8,7 +8,7 @@ FROM node:12-buster-slim
 
 LABEL maintainer="Kalisio <contact@kalisio.xyz>"
 
-ENV CRON="0 0 * * * *"
+ENV CRON="0 20 * * * *"
 
 # Copy Krawler from the Krawler image alias
 COPY --from=krawler /opt/krawler /opt/krawler
