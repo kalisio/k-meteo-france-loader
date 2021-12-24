@@ -1,7 +1,7 @@
 # k-meteo-france-loader
 
 [![Latest Release](https://img.shields.io/github/v/tag/kalisio/k-meteo-france-loader?sort=semver&label=latest)](https://github.com/kalisio/k-meteo-france-loader/releases)
-[![Build Status](https://travis-ci.com/kalisio/k-meteo-france-loader.png?branch=master)](https://travis-ci.com/kalisio/k-meteo-france-loader)
+[![Build Status](https://app.travis-ci.com/kalisio/k-meteo-france-loader.png?branch=master)](https://app.travis-ci.com/kalisio/k-meteo-france-loader)
 
 A [Krawler](https://kalisio.github.io/krawler/) based service to download raw data from the Météo-France [AROME](https://donneespubliques.meteofrance.fr/?fond=produit&id_produit=131&id_rubrique=51) and [ARPEGE](https://donneespubliques.meteofrance.fr/?fond=produit&id_produit=130&id_rubrique=51) weather forecast models.
 
