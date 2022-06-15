@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-- '12'
+- '16'
 services:
 - docker
 notifications:
@@ -23,7 +23,7 @@ jobs:
   - stage: BUILD
     language: node_js
     node_js:
-    - '12'
+    - '16'
     services:
     - docker
     script:
@@ -32,16 +32,17 @@ jobs:
   - stage: TEST
     language: node_js
     node_js:
-    - '12'
+    - '16'
     services:
     - docker
-    addons:
-      code_climate:
-        repo_token: 0b6b19c50fdfaa0419d23d60fe8fd3d363b328dc4b10e363d213eb9fa8a82086
+    env:
+    - CC_TEST_REPORTER_ID=0b6b19c50fdfaa0419d23d60fe8fd3d363b328dc4b10e363d213eb9fa8a82086
     before_script:
-    - npm install -g codeclimate-test-reporter
+    - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+    - chmod +x ./cc-test-reporter
+    - "./cc-test-reporter before-build"
     - git clone https://github.com/kalisio/krawler.git && cd krawler && yarn install && yarn link && cd ..
     - yarn link '@kalisio/krawler'
     - NODE_PATH=./krawler/node_modules
     after_script:
-    - codeclimate-test-reporter < coverage/lcov.info
+    - "./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT"

@@ -1,7 +1,7 @@
-const createJob = require('./job-arome')
+import createJob from './job-arome.js'
 
 // Setup job name, model name, bounds and generation parameters
-module.exports = createJob({
+export default createJob({
   id: 'arome-france',
   model: 'AROME',
   grid: 0.025,

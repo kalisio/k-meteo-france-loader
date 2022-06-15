@@ -4,7 +4,7 @@ ARG KRAWLER_TAG=latest
 FROM kalisio/krawler:${KRAWLER_TAG} AS krawler
 
 # Make the job image using the krawler image alias
-FROM node:12-buster-slim
+FROM node:16-buster-slim
 
 LABEL maintainer="Kalisio <contact@kalisio.xyz>"
 
@@ -12,7 +12,11 @@ ENV CRON="0 20 * * * *"
 
 # Copy Krawler from the Krawler image alias
 COPY --from=krawler /opt/krawler /opt/krawler
-RUN cd /opt/krawler && yarn link && yarn link @kalisio/krawler
+WORKDIR /opt/krawler
+RUN yarn link && yarn link @kalisio/krawler
+
+# Required as yarn does not seem to set it correctly
+RUN chmod u+x /usr/local/bin/krawler
 
 # Install the job
 COPY job-arpege.js .
@@ -22,5 +26,4 @@ COPY jobfile-arpege-europe.js .
 HEALTHCHECK --interval=1m --timeout=10s --start-period=1m CMD node /opt/krawler/healthcheck.js
 
 # Run the job
-ENV NODE_PATH=/opt/krawler/node_modules
-CMD node /opt/krawler --cron "$CRON" jobfile-arpege-europe.js
+CMD krawler --cron "$CRON" jobfile-arpege-europe.js

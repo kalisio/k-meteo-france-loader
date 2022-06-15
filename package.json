@@ -3,6 +3,7 @@
   "description": "",
   "version": "0.1.0",
   "homepage": "https://github.com/kalisio/k-meteo-france-loader",
+  "type": "module",
   "keywords": [
     "krawler",
     "kargo",
@@ -30,7 +31,7 @@
     "postversion": "git push origin --tags",
     "lint": "standard *.js test/**/*.js --fix",
     "mocha": "cross-env NODE_CONFIG_DIR=./test/config/ mocha --exit",
-    "coverage": "nyc npm run mocha",
+    "coverage": "c8 npm run mocha",
     "test": "npm run lint && npm run coverage"
   },
   "standard": {
@@ -43,16 +44,16 @@
     "moment": "^2.29.1"
   },
   "devDependencies": {
+    "c8": "^7.11.2",
     "chai": "^4.2.0",
     "chai-lint": "^0.1.1",
     "cross-env": "^4.0.0",
     "fs-extra": "^4.0.2",
     "generate-changelog": "^1.8.0",
-    "mocha": "^6.2.0",
-    "nyc": "^15.0.1",
-    "standard": "^10.0.2"
+    "mocha": "^9.0.0",
+    "standard": "^17.0.0"
   },
   "peerDependencies": {
-    "@kalisio/krawler": "1.2.0"
+    "@kalisio/krawler": "2.0.0"
   }
 }

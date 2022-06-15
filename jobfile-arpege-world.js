@@ -1,7 +1,7 @@
-const createJob = require('./job-arpege')
+import createJob from './job-arpege.js'
 
 // Setup job name, model name, bounds and generation parameters
-module.exports = createJob({
+export default createJob({
   id: 'arpege-world',
   model: 'ARPEGE',
   grid: 0.5,

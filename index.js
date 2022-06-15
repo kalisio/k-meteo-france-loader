@@ -1,7 +1,7 @@
-const createArpegeJob = require('./job-arpege')
-const createAromeJob = require('./job-arome')
+import createArpegeJob from './job-arpege.js'
+import createAromeJob from './job-arome.js'
 
-module.exports = {
+export default {
   createArpegeJob,
   createAromeJob
 }
