@@ -24,11 +24,10 @@
     "url": "https://github.com/kalisio/k-meteo-france-loader/issues"
   },
   "scripts": {
-    "changelog": "changelog -x build,ci,chore,docs,other,perf,refactor,revert,style,test",
-    "release:major": "npm run changelog -- -M && git add CHANGELOG.md && git commit -m \"chore: updated CHANGELOG.md [skip ci]\" && git push && npm version --force major",
-    "release:minor": "npm run changelog -- -m && git add CHANGELOG.md && git commit -m \"chore: Updated CHANGELOG.md [skip ci]\" && git push && npm version --force minor",
-    "release:patch": "npm run changelog -- -p && git add CHANGELOG.md && git commit -m \"chore: Updated CHANGELOG.md [skip ci]\" && git push && npm version --force patch",
-    "postversion": "git push origin --tags",
+    "release:major": "npm version --force major",
+    "release:minor": "npm version --force minor",
+    "release:patch": "npm version --force patch",
+    "postversion": "git push origin HEAD --tags",
     "lint": "standard *.js test/**/*.js --fix",
     "mocha": "cross-env NODE_CONFIG_DIR=./test/config/ mocha --exit",
     "coverage": "c8 npm run mocha",
@@ -49,7 +48,6 @@
     "chai-lint": "^0.1.1",
     "cross-env": "^4.0.0",
     "fs-extra": "^4.0.2",
-    "generate-changelog": "^1.8.0",
     "mocha": "^9.0.0",
     "standard": "^17.0.0"
   },
