@@ -2,26 +2,14 @@ ARG KRAWLER_TAG=latest
 
 # Make a Krawler image alias to be able to take into account the KRAWLER_TAG argument
 FROM kalisio/krawler:${KRAWLER_TAG} AS krawler
-
-# Make the job image using the krawler image alias
-FROM node:16-buster-slim
-
 LABEL maintainer="Kalisio <contact@kalisio.xyz>"
 
 ENV CRON="0 0 * * * *"
 
-# Copy Krawler from the Krawler image alias
-COPY --from=krawler /opt/krawler /opt/krawler
-WORKDIR /opt/krawler
-RUN yarn link && yarn link @kalisio/krawler
-
-# Required as yarn does not seem to set it correctly
-RUN chmod u+x /usr/local/bin/krawler
-
-# Install the job
-COPY job-arpege.js .
-COPY job-arome.js .
-COPY jobfile-arome-france.js .
+# Copy the job and install the dependencies
+COPY --chown=node:node job-arpege.js job-arome.js jobfile-arome-france.js package.json yarn.lock /opt/job/
+WORKDIR /opt/job
+RUN yarn && yarn link @kalisio/krawler && yarn cache clean
 
 # Add default healthcheck
 HEALTHCHECK --interval=1m --timeout=10s --start-period=1m CMD node /opt/krawler/healthcheck.js
